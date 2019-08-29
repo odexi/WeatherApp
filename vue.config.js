@@ -1,3 +1,4 @@
 module.exports = {
-    publicPath: 'WeatherApp'
+    publicPath: '/WeatherApp',
+    outputDir: "docs"
 } 
