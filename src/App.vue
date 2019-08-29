@@ -1,27 +1,29 @@
 <template>
-  <div id="app">
-    <Weather />
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Varma</span>
+        <span class="font-weight-light">SÄÄ</span>
+      </v-toolbar-title>
+      
+    </v-app-bar>
+
+    <v-content>
+        <Weather/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import Weather from './components/Weather.vue'
+import Weather from './components/Weather';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    Weather
-  }
-}
+    Weather,
+  },
+  data: () => ({
+    //
+  }),
+};
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
