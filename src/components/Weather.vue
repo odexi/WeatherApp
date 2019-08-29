@@ -4,17 +4,14 @@
 
     <v-container fluid>
       <v-row>
-        <v-col v-for="(weather, index) in weathers" :key="index" cols="12" sm="6" md="2" lg="2">
+        <v-col v-for="(weather, index) in weathers" :key="index" cols="12" sm="6" md="3" lg="3">
           <v-card>
             <v-card-title>
               <h4>{{weekDays[weather.date.getDay()] + ' ' + formatDate(weather.date)}}</h4>
             </v-card-title>
             <v-divider></v-divider>
             <v-list dense>
-              <v-list-item v-for="(temp, index) in weather.temps" :key="index">
-                <v-list-item-content>{{ temp.date.getHours() }}:</v-list-item-content>
-                <v-list-item-content class="align-end">{{ temp.temp }} °C</v-list-item-content>
-              </v-list-item>
+              <Temperature v-for="(temp, index) in weather.temps" :key="index" :temp="temp" />
             </v-list>
           </v-card>
         </v-col>
@@ -25,13 +22,17 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+import Temperature from './Temperature'
 
 export default {
   data() {
     return {
       country: "Finland",
-      weekDays: ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"]
+      weekDays: ["Su", "Ma", "Ti", "Ke", "To", "Pe", "La"]
     };
+  },
+  components: {
+    Temperature
   },
   computed: {
     ...mapState(["city", "weathers"])
@@ -50,6 +51,7 @@ export default {
       try {
         axios.get(url).then(res => {
           if (res.status === 200) {
+            console.log(res);
             let weatherData = res.data;
             this.$store.dispatch("setCity", weatherData.city.name);
 
@@ -86,6 +88,7 @@ export default {
                 date = t.date.getDate();
                 tempsOfOneDay.push(t);
               }
+              currentDate = t.date;
             });
 
             let newDay = {
@@ -94,6 +97,7 @@ export default {
             };
 
             days.push(newDay);
+            console.log(days);
 
             this.$store.dispatch("setWeatherData", days);
           } else {
